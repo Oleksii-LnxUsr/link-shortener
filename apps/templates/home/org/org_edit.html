@@ -1,0 +1,149 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Org Page {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini pace-primary {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/fontawesome-free/css/all.min.css">
+  <!-- pace-progress -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
+  <!-- adminlte-->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}  
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Профиль(изменение)</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/">Главная</a></li>
+              <li class="breadcrumb-item active">Профиль изменение</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->    
+    <form method="POST" action="" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                <div class="card">
+                  
+                  <!-- /.card-header -->
+                      <div class="card-body">
+                          <div class="form-group">
+                            <label for="inputName">{{ form.user.label }}</label>                          
+                            <p>{{ form.user }}</p>
+                          </div>
+                          <div class="form-group">
+                            <label for="inputName">{{ form.name.label }}</label>                          
+                            <p>{{ form.name }}</p>
+                          </div>
+                          <div class="form-group">
+                            <label for="inputName">{{ form.address.label }}</label>                          
+                            <p>{{ form.address }}</p>
+                          </div>
+                          <div class="form-group">
+                            <label for="inputName">{{ form.note_text.label }}</label>                          
+                            <p>{{ form.note_text }}</p>
+                          </div>
+                          <div class="form-group">
+                            <label for="inputName">{{ form.phone.label }}</label>                          
+                            <p>{{ form.phone }}</p>
+                          </div>
+                          <div class="form-group">
+                            <label for="inputName">{{ form.t_token.label }}</label>                          
+                            <p>{{ form.t_token }}</p>
+                          </div>
+                          <div class="form-group">
+                            <label for="inputName">{{ form.t_start_phrases.label }}</label>                          
+                            <p>{{ form.t_start_phrases }}</p>
+                          </div>
+                          <div class="form-group">
+                            <label for="inputName">{{ form.datetime_string_start.label }}</label>                          
+                            <p>{{ form.datetime_string_start }}</p>
+                          </div>
+                          <div class="form-group">
+                            <label for="inputName">{{ form.datetime_string_end.label }}</label>                          
+                            <p>{{ form.datetime_string_end }}</p>
+                          </div>                          
+                          <div class="form-group">
+                            <label for="inputName">{{ form.typeOrg.label }}</label>                          
+                            <p>{{ form.typeOrg }}</p>
+                          </div>
+                          
+                          <div class="row">
+                              <div class="col-sm-6">
+                              <div class="form-group">
+                                  <div class="form-check">
+                                    {{ form.its_name }}
+                                    <label class="form-check-label">{{ form.its_name.label }}</label>                                                              
+                                  </div>
+                              </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-sm-6">
+                              <div class="form-group">
+                                  <div class="form-check">
+                                    {{ form.its_phone }}
+                                    <label class="form-check-label">{{ form.its_phone.label }}</label>                                                              
+                                  </div>
+                              </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-sm-6">
+                              <div class="form-group">
+                                  <div class="form-check">
+                                    {{ form.its_email }}
+                                    <label class="form-check-label">{{ form.its_email.label }}</label>                                                              
+                                  </div>
+                              </div>
+                              </div>
+                          </div>
+                          
+                    </div>
+                    
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-secondary">Отменить</a>
+                        <input type="submit" value="Сохранить" class="btn btn-success float-right">
+                   </div>
+                </div>
+          </form>            
+            
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{ ASSETS_ROOT }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- pace-progress -->
+  <script src="{{ ASSETS_ROOT }}/plugins/pace-progress/pace.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="{{ ASSETS_ROOT }}/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="{{ ASSETS_ROOT }}/js/demo.js"></script>
+
+{% endblock javascripts %}

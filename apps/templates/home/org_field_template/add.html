@@ -1,0 +1,92 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Org Page {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini pace-primary {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/fontawesome-free/css/all.min.css">
+  <!-- pace-progress -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
+  <!-- adminlte-->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}  
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Шаблон ввода(добавление)</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/">Главная</a></li>
+              <li class="breadcrumb-item active">Шаблон ввода добавление</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+   
+    <form method="POST" action="{% url "org_field_template_add" %}" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                <div class="card">
+                  
+                  <!-- /.card-header -->
+                      <div class="card-body">
+                     
+                       <div class="form-group">                            
+                            <p>{{ form.org }}</p>
+                          </div>
+                          <div class="form-group">
+                            <label for="inputName">{{ form.name.label }}</label>                          
+                            <p>{{ form.name }}</p>
+                          </div>
+                          <div class="form-group">
+                            <label for="inputName">{{ form.order.label }}</label>                          
+                            <p>{{ form.order }}</p>
+                          </div>
+                          
+                          
+                    </div>
+                 <div class="card-footer">
+                        <a href="#" class="btn btn-secondary">Отменить</a>
+                        <input type="submit" value="Сохранить" class="btn btn-success float-right">
+                   </div>
+                </div>
+            
+           
+          </form>            
+            
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{ ASSETS_ROOT }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- pace-progress -->
+  <script src="{{ ASSETS_ROOT }}/plugins/pace-progress/pace.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="{{ ASSETS_ROOT }}/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="{{ ASSETS_ROOT }}/js/demo.js"></script>
+
+{% endblock javascripts %}

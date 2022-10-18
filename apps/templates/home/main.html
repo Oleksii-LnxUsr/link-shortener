@@ -1,0 +1,159 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Blank Page {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini pace-primary {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/fontawesome-free/css/all.min.css">
+  <!-- pace-progress -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
+  <!-- adminlte-->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/css/adminlte.min.css">  
+ 
+
+  <link href='{{ ASSETS_ROOT }}/plugins/fullcalendar/main.css' rel='stylesheet' />
+  <script src='{{ ASSETS_ROOT }}/plugins/fullcalendar/main.js'></script>
+  <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var date = new Date()
+        var d    = date.getDate(),
+            m    = date.getMonth(),
+            y    = date.getFullYear()
+        
+        var calendarEl = document.getElementById('calendar');        
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left  : 'prev,next today',
+                center: 'title',
+                right : 'dayGridMonth,timeGridWeek,timeGridDay'
+              },
+              themeSystem: 'bootstrap',
+      
+          initialView: 'dayGridMonth',
+          locale: 'ru',
+          events: [
+                {% for s in sheduler %}
+                    {
+                      title          : "{{s.username_input}} {{s.phone_input}} ({{s.org_workers.name}})",
+                      start          : new Date({{s.d_datetime|date:'Y'}}, Number({{s.d_datetime|date:'m'}})-1, Number({{s.d_datetime|date:'d'}}), {{s.d_datetime|date:'H'}}, {{s.d_datetime|date:'i'}}),
+                      url            : '{% url "sheduler_edit"  s.id %}',
+                      //start          : new Date(2022, 0, 6, 9, 01),
+                      allDay         : false,
+                      backgroundColor: '#0073b7', //Blue
+                      borderColor    : '#0073b7' //Blue
+                    },
+                {% endfor %}
+                
+              ],
+              
+        });
+        calendar.render();
+      });
+
+ </script>
+    
+{% endblock stylesheets %}
+
+{% block content %}  
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Главная</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/">Главная</a></li>
+              <!--<li class="breadcrumb-item active">Расписание</li>-->
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="sticky-top mb-3">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Записи:</h4>
+                </div>
+                <div class="card-body">
+                  <!-- the events -->
+                  
+                    {% for s in sheduler %}
+                        <!--<a href ={% url "sheduler_edit" s.id%} >{{s.username_input}} {{s.phone_input}} {{s.email_input}} </a><br><small><a href ={% url "sheduler_edit" s.id%} >{{s.d_datetime|date:'d.m.y H:i'}} - {{s.org_workers.name}}, {{s.org_service.name}} (бот)</a></small> </u><div style="font-weight:bold;">-->
+                        <div class="row">
+                        <a href ={% url "sheduler_edit" s.id%} ><b><u>{{s.d_datetime|date:'d.m.y H:i'}}</u> {{s.org_workers.name}} </b> {{s.org_service.name}} {{s.username_input}} {{s.phone_input}} </a>
+                        </div>
+                    {% endfor %}
+                  
+                  
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+              
+              
+                
+            
+            
+                
+            
+          
+              
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-md-9">
+            <div class="card card-primary">
+              <div class="card-body p-0">
+                <!-- THE CALENDAR -->
+                <div id="calendar"></div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{ ASSETS_ROOT }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- pace-progress -->
+  <script src="{{ ASSETS_ROOT }}/plugins/pace-progress/pace.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="{{ ASSETS_ROOT }}/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="{{ ASSETS_ROOT }}/js/demo.js"></script>
+  
+
+{% endblock javascripts %}
+
+

@@ -1,0 +1,155 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Org Page {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini pace-primary {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/fontawesome-free/css/all.min.css">
+  <!-- pace-progress -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
+  <!-- adminlte-->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}  
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Специалист(изменение)</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/">Главная</a></li>
+              <li class="breadcrumb-item active">Специалист изменение</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+   
+    <form method="POST" action="" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                <div class="card">
+                  
+                  <!-- /.card-header -->
+                      <div class="card-body">
+                          <div class="form-group">                          
+                            <p>{{ form.org }}</p>
+                          </div>
+                          <div class="form-group">
+                            <label for="inputName">{{ form.chat_id.label }}</label>                          
+                            <p>{{ form.chat_id }}</p>
+                          </div>
+                          <div class="form-group">
+                            <label for="inputName">{{ form.t_id.label }}</label>                          
+                            <p>{{ form.t_id }}</p>
+                          </div>
+                          <div class="form-group">
+                            <label for="inputName">{{ form.name.label }}</label>                          
+                            <p>{{ form.name }}</p>
+                          </div>
+                          <div class="form-group">
+                            <label for="inputName">{{ form.note_text.label }}</label>                          
+                            <p>{{ form.note_text }}</p>
+                          </div>
+                          <div class="row">
+                              <div class="col-sm-6">
+                              <div class="form-group">
+                                  <div class="form-check">
+                                    {{ form.moderation }}
+                                    <label class="form-check-label">{{ form.moderation.label }}</label>                                                              
+                                  </div>
+                              </div>
+                              </div>
+                          </div>
+                          
+                          <h5 class="mt-4 mb-2">Услуги мастера (с указанием коэфициента)</h5>
+                          <div class="row">
+                            <div class="col-sm-6">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th style="width: 10px">#</th>
+                                  <th>Услуга</th>
+                                  <!--<th>Коэфициент оплаты</th>-->
+                                  
+                                </tr>
+                              </thead>
+                              <tbody>                                
+                                {% for s in services %}
+                                    <tr>
+                                         <td>
+                                            <div class="form-group">
+                                              <div class="form-check">
+                                                    {% if s.its_check %}
+                                                        <input class="form-check-input" type="checkbox" id="id_s_k_{{s.id}}" name="id_s_k_{{s.id}}" checked>
+                                                    {% else %}
+                                                        <input class="form-check-input" type="checkbox" id="id_s_k_{{s.id}}" name="id_s_k_{{s.id}}">
+                                                    {% endif %}
+                                              </div>
+                                          </div>
+                                        </td>
+                                      <td>
+                                            <div class="form-group">{{ s.name }}</div>
+                                      </td>
+                                      <!--<td>
+                                          <div class="col-3">
+                                          {% if s.its_check %}
+                                            <input type="text" class="form-control" id="id_s_v_{{s.pk}}" name="id_s_v_{{s.id}}" value="{{s.its_value}}">
+                                          {% else %}
+                                            <input type="text" class="form-control" id="id_s_v_{{s.pk}}" name="id_s_v_{{s.id}}" value="1,00">
+                                          {% endif %}
+                                          </div>
+                                      </td>-->
+                                    </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                            
+                            </div>
+                           </div>
+                           
+                         
+                    </div>
+                <div class="card-footer">
+                        <a class="btn btn-warning me-1" href="{% url 'org_workers_delete' orgworkers.pk %}">Удалить</a>
+                        <input type="submit" value="Сохранить" class="btn btn-success float-right">
+                   </div>
+                </div>
+            
+            
+          </form>            
+            
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{ ASSETS_ROOT }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- pace-progress -->
+  <script src="{{ ASSETS_ROOT }}/plugins/pace-progress/pace.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="{{ ASSETS_ROOT }}/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="{{ ASSETS_ROOT }}/js/demo.js"></script>
+
+{% endblock javascripts %}
