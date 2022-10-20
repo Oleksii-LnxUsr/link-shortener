@@ -34,6 +34,6 @@ urlpatterns = [
     
     #path('', ShedulerCreateView.as_view(), name="main"),
     
-    path("blank/", BlankView.as_view(), name="blank"),
-    
+    #path("blank/", BlankView.as_view(), name="blank"),
+    path('api_v1/get_urls/', UrlBaseView.as_view(), name="get_urls"),
 ]

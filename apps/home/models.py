@@ -10,10 +10,22 @@ from django.contrib.auth.models import User, Group
 
 
 class UrlBase(models.Model):
+    TYPE_SOURCE = (
+        ('www', 'www'),
+        ('api', 'api'),
+    )
     user = models.ForeignKey(User,models.SET_NULL,blank=True,null=True, verbose_name='Пользователь')
     longUrl = models.CharField(max_length=255, blank=True, null=True, verbose_name="Исходная ссылка")
     shortUrl = models.CharField(max_length=255, blank=True, null=True, verbose_name="Короткая сслылка")
 
+    typeSource = models.CharField(
+            max_length=10,
+            choices=TYPE_SOURCE,
+            default='www',
+            verbose_name='Источник',
+            null=True, blank=True
+        )
+        
     updated_at = models.DateTimeField(verbose_name='updated date', auto_now=True)
     
     

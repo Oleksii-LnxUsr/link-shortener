@@ -19,8 +19,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 import datetime
+import random
 
 
+RANDOM_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+ITEM_RANDOM_CHAR = 4
 
 
 def redirect_url(request, short_url):
@@ -32,7 +35,39 @@ def redirect_url(request, short_url):
         context = {'error_url': 'https://okqr.ru/'+short_url}
         html_template = loader.get_template('home/page-404.html')
         return HttpResponse(html_template.render(context, request))
-    
+
+
+def getRandom(count_random):
+    strRandom = ""
+    for i in range(count_random):
+        strRandom = strRandom + random.choice(RANDOM_STRING)
+        obj_search = UrlBase.objects.all().filter(shortUrl=RANDOM_STRING).first()
+        if obj_search!=None:
+            while obj_search!=None:
+                count_random = count_random + 1
+                strRandom = getRandom(count_random)
+                obj_search = UrlBase.objects.all().filter(shortUrl=RANDOM_STRING).first()
+    return strRandom
+
+
+class UrlBaseView(APIView):
+    #authentication_classes = [SessionAuthentication, BasicAuthentication]
+    #permission_classes = [IsAuthenticated]
+    def post(self, request):
+        postData = json.dumps(request.data)
+        jsonData = json.loads(postData)
+        print('jsonData->',jsonData)        
+        l_result = []
+        for v in jsonData:
+            obj = UrlBase.objects.create()
+            obj.longUrl = v['url']
+            print('v->',v['url'])
+            obj.shortUrl = "https://okqr.ru/"+getRandom(ITEM_RANDOM_CHAR)
+            obj.typeSource = 'api'
+            obj.save()
+            l_result.append({'longUrl':obj.longUrl, 'shortUrl':obj.shortUrl})
+        return JsonResponse({"result": list(l_result)}, safe=False)
+
 
 '''    
 @login_required(login_url="/login/")

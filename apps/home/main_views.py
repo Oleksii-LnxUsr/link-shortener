@@ -4,8 +4,10 @@ from apps.home.models import *
 from apps.home.forms import UrlBaseForm
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
+
 import random
-import string
+import segno
+
 
 RANDOM_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 ITEM_RANDOM_CHAR = 4
@@ -43,6 +45,7 @@ class MainCreateView(CreateView):
         errors = {}
         self.object = form.save(commit=False)
         self.object.shortUrl = "https://okqr.ru/"+getRandom(ITEM_RANDOM_CHAR)
+        self.object.typeSource = 'www'
         self.object.save()
         
         return super().form_valid(form)
@@ -56,8 +59,18 @@ class MainUpdateView(UpdateView):
         return reverse('blank')
         
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)        
-        context['short_url'] = self.object.shortUrl
+        context = super().get_context_data(**kwargs)
+        short_url = self.object.shortUrl
+        qrcode = segno.make(short_url, error='Q')
+        file_name='media/'+short_url.replace('https://okqr.ru/','')+'.svg'
+        qrcode.save(file_name, scale=4)
+        svg_data  = ''
+        with open(file_name,'r')as file:
+            svg_data = file.read().replace('<?xml version="1.0" encoding="utf-8"?>\n', '')
+        print('file_name->',file_name)
+        context['svg_data'] = svg_data
+        
+        context['short_url'] = short_url
         return context
     
     def form_valid(self, form):
