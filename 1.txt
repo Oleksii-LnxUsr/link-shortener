@@ -2,8 +2,10 @@ celery -A core flower
 
 pip3 freeze
 
-docker run -it --rm -p 80:80 --name certbot \
+sudo docker run -it --rm -p 80:80 --name certbot \
          -v "/etc/letsencrypt:/etc/letsencrypt" \
          -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
-         certbot/certbot certonly --standalone -d your_domain.com
-         
+         certbot/certbot certonly --standalone -d okqr.ru
+		 
+		 
+source ./env/bin/activate

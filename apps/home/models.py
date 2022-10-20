@@ -11,14 +11,14 @@ from django.contrib.auth.models import User, Group
 
 class UrlBase(models.Model):
     user = models.ForeignKey(User,models.SET_NULL,blank=True,null=True, verbose_name='Пользователь')
-    shortUrl = models.CharField(max_length=255, blank=True, null=True, verbose_name="КороткаяСсылка")
-    longUrl = models.CharField(max_length=255, blank=True, null=True, verbose_name="ДлиннаяСсылка")
-    
+    longUrl = models.CharField(max_length=255, blank=True, null=True, verbose_name="Исходная ссылка")
+    shortUrl = models.CharField(max_length=255, blank=True, null=True, verbose_name="Короткая сслылка")
+
     updated_at = models.DateTimeField(verbose_name='updated date', auto_now=True)
     
     
     def __str__(self):
-        return self.shortUrl.__str__() 
+        return self.longUrl.__str__() 
         
     class Meta:
         verbose_name = 'Ссылки'

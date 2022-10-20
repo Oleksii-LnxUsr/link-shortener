@@ -5,7 +5,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 from django import template
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, HttpResponsePermanentRedirect
 from django.template import loader
 from django.urls import reverse
 
@@ -22,6 +22,19 @@ import datetime
 
 
 
+
+def redirect_url(request, short_url):
+    print('short_url->',short_url)
+    find_obj = UrlBase.objects.all().filter(shortUrl = 'https://okqr.ru/'+short_url).first()
+    if find_obj!=None:
+        return HttpResponsePermanentRedirect(find_obj.longUrl)
+    else:
+        context = {'error_url': 'https://okqr.ru/'+short_url}
+        html_template = loader.get_template('home/page-404.html')
+        return HttpResponse(html_template.render(context, request))
+    
+
+'''    
 @login_required(login_url="/login/")
 def index(request):
     context = {'segment': 'index'}
@@ -172,3 +185,4 @@ class ShedulerView(APIView):
             else:
                 return HttpResponseNotFound("error data")
         
+'''

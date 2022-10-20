@@ -22,7 +22,16 @@ urlpatterns = [
 
     # The home page
     #path('', views.index, name='home'),
-    path('', MainView.as_view(), name='main'),
+    #re_path(r'^/(?P<short_url>{})$', views.redirect_url, name='redirect_url'),
+    #re_path(r'^/([A-Z])$', views.redirect_url, name='redirect_url'),
+    #re_path(r'^(?P<short_url>\w+)$', views.redirect_url, name='redirect_url'),
+    re_path(r'(?P<short_url>\w{4,7})/$', views.redirect_url, name='redirect_url'),    
+    #path('<short_url>BZ2D', views.redirect_url, name='redirect_url'),   
+    path('', MainCreateView.as_view(), name='main_add'),
+    path('url/<int:pk>/view/', MainUpdateView.as_view(), name='url_view'),
+    
+    #re_path('news_detail/(?P<news_id>[0-9]+)/$', views.news_detail, name='news_detail'),
+    
     #path('', ShedulerCreateView.as_view(), name="main"),
     
     path("blank/", BlankView.as_view(), name="blank"),
