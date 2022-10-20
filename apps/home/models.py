@@ -17,6 +17,7 @@ class UrlBase(models.Model):
     user = models.ForeignKey(User,models.SET_NULL,blank=True,null=True, verbose_name='Пользователь')
     longUrl = models.CharField(max_length=255, blank=True, null=True, verbose_name="Исходная ссылка")
     shortUrl = models.CharField(max_length=255, blank=True, null=True, verbose_name="Короткая сслылка")
+    count = models.IntegerField(default = 0, verbose_name='Количество открытий')
 
     typeSource = models.CharField(
             max_length=10,

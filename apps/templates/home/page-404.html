@@ -1,59 +1,55 @@
-{% extends "layouts/base.html" %}
+<!doctype html>
+<html lang="ru">
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
-{% block title %} 404 Page {% endblock %} 
+	<title>Сокращатель ссылок</title>
+	<meta name="keywords" content=" ">
+	<meta name="description" content=" ">
+	
+	<meta http-equiv="refresh" content="3;url={% url 'main_add' %}" />
 
-<!-- Element injected in the BODY element -->
-{% block body_class %} sidebar-mini pace-primary {% endblock body_class %}
 
-<!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}
+	<link rel="icon" type="img/png" href="{{ ASSETS_ROOT }}/img/favicon.png" />
+	<link rel="stylesheet" type="text/css" href="{{ ASSETS_ROOT }}/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{{ ASSETS_ROOT }}/css/style.css">
+	<link rel="stylesheet" type="text/css" href="{{ ASSETS_ROOT }}/css/media-all.css">
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<!--[if lt IE 9]> 
+	<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script> 
+	<![endif]--> 
+	</head>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/fontawesome-free/css/all.min.css">
-  <!-- pace-progress -->
-  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
-  <!-- adminlte-->
-  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/css/adminlte.min.css">  
+<body>
+
+<!-- Контент -->
+<section class="form_wrapper">
+        <div class="container">
+		  <div class="row">
+			<div class="col-sm-12 col-md-12">
+					<a href="{% url 'main_add' %}"><img class="logo" src="{{ ASSETS_ROOT }}/img/logo.svg" ></a>
+			</div>
+		  </div>
+		  <div class="row">
+			<div class="col-sm-12 col-md-12">
+					<h1>404</h1>
+					
+			</div>
+		  </div>
+		  <div class="row">
+			<div class="col-sm-12 col-md-12">
+					<div class="qr-title"><p>Такой страницы здесь нет ;(<br>Вернем Вас на главную через 3 сек ...</p></div>
+			</div>
+		  </div>
+		    
+		</div>
+</section>
+
+<script src="{{ ASSETS_ROOT }}/plugins/jquery/jquery.min.js"></script>
  
 
-  <link href='{{ ASSETS_ROOT }}/plugins/fullcalendar/main.css' rel='stylesheet' />
-  <script src='{{ ASSETS_ROOT }}/plugins/fullcalendar/main.js'></script>
-  
-    
-{% endblock stylesheets %}
+</body>
 
-{% block content %}  
-
-  <h1>Оконный континент</h1>
-  <h5>Ошибка</h5>
-  
-  <p>Ссылка: "{{ error_url }}" не найдена </p> 
-	
-	<a class="btn btn-warning me-1" href="{% url 'main_add' %}">На главную</a>
-	
-	<p>Удобный сокращатель</p>
-	<p>Вы можете воспользоваться им, чтобы из длинной ссылки сделать короткую</p>
-		  
-
-{% endblock content %}
-
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
-
-  <!-- jQuery -->
-  <script src="{{ ASSETS_ROOT }}/plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap 4 -->
-  <script src="{{ ASSETS_ROOT }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- pace-progress -->
-  <script src="{{ ASSETS_ROOT }}/plugins/pace-progress/pace.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="{{ ASSETS_ROOT }}/js/adminlte.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="{{ ASSETS_ROOT }}/js/demo.js"></script>
-  
-
-{% endblock javascripts %}
-
-
+</html>

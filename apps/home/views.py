@@ -30,6 +30,9 @@ def redirect_url(request, short_url):
     print('short_url->',short_url)
     find_obj = UrlBase.objects.all().filter(shortUrl = 'https://okqr.ru/'+short_url).first()
     if find_obj!=None:
+        find_obj.count = find_obj.count + 1
+        print('find_obj.count->',find_obj.count)
+        find_obj.save()
         return HttpResponsePermanentRedirect(find_obj.longUrl)
     else:
         context = {'error_url': 'https://okqr.ru/'+short_url}

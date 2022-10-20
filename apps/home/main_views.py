@@ -62,13 +62,15 @@ class MainUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         short_url = self.object.shortUrl
         qrcode = segno.make(short_url, error='Q')
-        file_name='media/'+short_url.replace('https://okqr.ru/','')+'.svg'
+        file_name='apps/static/assets/img/'+short_url.replace('https://okqr.ru/','')+'.svg'
         qrcode.save(file_name, scale=4)
         svg_data  = ''
         with open(file_name,'r')as file:
             svg_data = file.read().replace('<?xml version="1.0" encoding="utf-8"?>\n', '')
         print('file_name->',file_name)
         context['svg_data'] = svg_data
+        context['svg_file'] = short_url.replace('https://okqr.ru/','')+'.svg'
+        
         
         context['short_url'] = short_url
         return context

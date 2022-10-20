@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+.form_wrapper {
+padding: 45px 0;
+}
+.logo {
+margin-bottom: 60px;
+}
+input[type=text] {
+border: 1px solid #B5BBC2;
+border-radius: 5px;
+color:#000;
+outline: none;
+    padding: 5px;
+    display: block;
+    width: 100%;
+    max-width: 380px;
+    margin-bottom: 15px;
+	height:50px;
+}
+.button  {
+border-radius: 5px;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 32px;
+padding:10px 20px;
+color:#fff;
+border: none;
+}
+.copy {
+background: #76BC21;
+}
+.more {
+background: #003595;
+margin-left:15px;
+}
+.short {
+background: #003595;
+}
+.qr-title {
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 32px;
+color: #000000;
+margin-top:40px;
+}
+.success-title {
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 30px;
+line-height: 135%;
+color: #000000;
+margin-top:20px;
+}
+.short-title {
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 30px;
+line-height: 135%;
+color: #000000;
+margin-top:65px;
+}
+.description {
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 135%;
+color: #000000;
+margin-top:10px;
+}
+
+.description span {
+display: block;
+}
+
+.label-wrapper {
+position: relative;
+}
+label  {
+    position: absolute;
+    left: 10px;
+    top: -13px;
+background: #FFFFFF;
+padding:5px 5px 0 5px;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 135%;
+color: #B5BBC2;
+}

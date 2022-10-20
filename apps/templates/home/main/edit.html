@@ -1,98 +1,68 @@
-{% extends "layouts/base.html" %}
+<!doctype html>
+<html lang="ru">
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
-{% block title %} Blank Page {% endblock %} 
-
-<!-- Element injected in the BODY element -->
-{% block body_class %} sidebar-mini pace-primary {% endblock body_class %}
-
-<!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}
-
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/fontawesome-free/css/all.min.css">
-  <!-- pace-progress -->
-  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
-  <!-- adminlte-->
-  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/css/adminlte.min.css">  
- 
-
-  <link href='{{ ASSETS_ROOT }}/plugins/fullcalendar/main.css' rel='stylesheet' />
-  <script src='{{ ASSETS_ROOT }}/plugins/fullcalendar/main.js'></script>
-  
-  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
-    
-{% endblock stylesheets %}
-
-{% block content %}  
+	<title>Сокращатель ссылок</title>
+	<meta name="keywords" content=" ">
+	<meta name="description" content=" ">
 
 
+	<link rel="icon" type="img/png" href="{{ ASSETS_ROOT }}/img/favicon.png" />
+	<link rel="stylesheet" type="text/css" href="{{ ASSETS_ROOT }}/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{{ ASSETS_ROOT }}/css/style.css">
+	<link rel="stylesheet" type="text/css" href="{{ ASSETS_ROOT }}/css/media-all.css">
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<!--[if lt IE 9]> 
+	<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script> 
+	<![endif]--> 
+	</head>
 
-  <h1>Оконный континент</h1>
-  
-  
-  <form method="POST" action="" enctype="multipart/form-data">
+<body>
+
+<!-- Контент -->
+<section class="form_wrapper">
+        <div class="container">
+		  <div class="row">
+			<div class="col-sm-12 col-md-12">
+					<a href="{% url 'main_add' %}"><img class="logo" src="{{ ASSETS_ROOT }}/img/logo.svg" ></a>
+			</div>
+		  </div>
+		  <div class="row">
+			<div class="col-sm-12 col-md-12">
+					<form method="POST" action="" enctype="multipart/form-data">
                                     {% csrf_token %}
-                <div class="card">
-                  
-                  <!-- /.card-header -->
-					<div class="card-body">
-                          
-                          <div class="form-group">
-                            <p>{{ form.shortUrl }}</p>
-                          </div>
-					<a class="btn btn-warning me-1" href="#">Скопировать</a>
-					<a class="btn btn-warning me-1" href="{% url 'main_add' %}">Еще</a>
+						{{ form.shortUrl }}
+						<input type="button" class="button copy" value="Скопировать" onclick="copyToClipboard('#id_shortUrl')">
+						<input type="button" class="button more" value="Еще" onclick="location.href='{% url 'main_add' %}';" >
+						
+					</form>
+			</div>
+		  </div>
+		  <div class="row">
+			<div class="col-sm-12 col-md-12">
+					<div class="qr-title">QR-код для этой ссылки</div>
+					<a href="{{ ASSETS_ROOT }}/img/{{svg_file}}"><img src="{{ ASSETS_ROOT }}/img/{{svg_file}}"></a>
+			</div>
+		  </div>
+		    <div class="row">
+				<div class="col-sm-12 col-md-12">
+						<div class="success-title">Ваша ссылка готова!</div>
+				</div>
+		  </div>
+		</div>
+</section>
 
-					</div>
-					
-                
-                </div>
-            
-            
-          </form> 
-		  
-	<p>QR для этой ссылки</p>
-	
-	<div>{{ svg_data | safe }}</div>
-	<p>Ваша ссылка готова!</p>
-		  
-
-{% endblock content %}
-
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
-
-  <!-- jQuery -->
-  <script src="{{ ASSETS_ROOT }}/plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap 4 -->
-  <script src="{{ ASSETS_ROOT }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- pace-progress -->
-  <script src="{{ ASSETS_ROOT }}/plugins/pace-progress/pace.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="{{ ASSETS_ROOT }}/js/adminlte.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="{{ ASSETS_ROOT }}/js/demo.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
-
+<script src="{{ ASSETS_ROOT }}/plugins/jquery/jquery.min.js"></script>
 <script> 
-        $(document).ready(function () {
-const qrcode = new QRCode(document.getElementById('qrcode'), {
-  text: '{{ short_url }}',
-  width: 125,
-  height: 125,
-  colorDark : '#000',
-  colorLight : '#fff',
-  correctLevel : QRCode.CorrectLevel.L
-});
+        function copyToClipboard(element) {
+		  $(element).select();
+		  document.execCommand("copy");
+		}
+</script> 
 
+</body>
 
-
-});  
-    </script>   
-	
-{% endblock javascripts %}
-
-
+</html>
