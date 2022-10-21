@@ -10,6 +10,7 @@ class UrlBaseForm(forms.ModelForm):
         self.fields['user'].widget.attrs.update({'class': 'form-control'})
         self.fields['shortUrl'].widget.attrs.update({'class': 'form-control'})
         self.fields['longUrl'].widget.attrs.update({'class': 'form-control'})
+        self.fields['longUrl'].required = True
         
     class Meta:
         model = UrlBase        
