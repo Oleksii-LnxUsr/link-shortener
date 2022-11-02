@@ -27,8 +27,8 @@ DEBUG = env('DEBUG')
 ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets') 
 
 # load production server from .env
-ALLOWED_HOSTS        = ['okqr.ru','localhost','95.181.230.150', 'localhost:85', '127.0.0.1',               env('SERVER', default='127.0.0.1') ]
-CSRF_TRUSTED_ORIGINS = ['http://okqr.ru','http://localhost:85', 'http://127.0.0.1', 'https://' + env('SERVER', default='127.0.0.1') ]
+ALLOWED_HOSTS        = ['okqr.ru','localhost','95.181.230.150', 'localhost:85', '127.0.0.1', 'localhost:4200', env('SERVER', default='127.0.0.1') ]
+CSRF_TRUSTED_ORIGINS = ['https://okqr.ru', 'http://okqr.ru', 'http://localhost:85', 'https://localhost:4200', 'http://127.0.0.1', 'https://' + env('SERVER', default='127.0.0.1') ]
 
 # Application definition
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',    
     'apps.home',
 ]
@@ -52,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -156,10 +159,27 @@ DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework.authentication.SessionAuthentication',
     ]
 }
 
 # Celery settings
 CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+#CORS_ALLOW_CREDENTIALS = True
+
+#CORS_ALLOWED_ORIGINS = [
+#    'https://okqr.ru',
+#]
+
+CORS_ORIGIN_WHITELIST = [
+    'https://okqr.ru'
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+#MEDIA_ROOT = f'{BASE_DIR}/media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+

@@ -5,6 +5,12 @@ services:
     restart: always
     env_file: .env
     build: .
+    volumes:
+      - ./:/app/
+      - ./staticfiles/admin:/usr/share/nginx/html/static/admin
+      - ./staticfiles/rest_framework:/usr/share/nginx/html/static/rest_framework
+      - ./staticfiles/summernote:/usr/share/nginx/html/static/summernote
+      - ./media:/media
     networks:
       - db_network
       - web_network
@@ -19,6 +25,11 @@ services:
       - ./nginx:/etc/nginx/conf.d
       - /var/www/html:/var/www/html
       - /etc/letsencrypt:/etc/letsencrypt
+      - ./staticfiles/admin:/usr/share/nginx/html/static/admin
+      - ./staticfiles/rest_framework:/usr/share/nginx/html/static/rest_framework
+      - ./staticfiles/summernote:/usr/share/nginx/html/static/summernote
+      - ./media:/usr/share/nginx/html/media
+      
     networks:
       - web_network
     depends_on: 

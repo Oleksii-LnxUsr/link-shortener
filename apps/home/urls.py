@@ -25,9 +25,10 @@ urlpatterns = [
     #re_path(r'^/(?P<short_url>{})$', views.redirect_url, name='redirect_url'),
     #re_path(r'^/([A-Z])$', views.redirect_url, name='redirect_url'),
     #re_path(r'^(?P<short_url>\w+)$', views.redirect_url, name='redirect_url'),
-    re_path(r'(?P<short_url>\w{4,7})/$', views.redirect_url, name='redirect_url'),    
+    #re_path(r'(?P<short_url>\w{4,7})/$', views.redirect_url, name='redirect_url'),
+    re_path(r'api/grs/(?P<short_url>\w{4,7})/$', UrlBaseOneView.as_view(), name='get_qr'),
     #path('<short_url>BZ2D', views.redirect_url, name='redirect_url'),   
-    path('', MainCreateView.as_view(), name='main_add'),
+    #path('', MainCreateView.as_view(), name='main_add'),
     path('url/<int:pk>/view/', MainUpdateView.as_view(), name='url_view'),
     
     #re_path('news_detail/(?P<news_id>[0-9]+)/$', views.news_detail, name='news_detail'),
@@ -36,4 +37,5 @@ urlpatterns = [
     
     #path("blank/", BlankView.as_view(), name="blank"),
     path('api_v1/get_urls/', UrlBaseView.as_view(), name="get_urls"),
+    path('api/grs', UrlBaseOneView.as_view(), name="api_grs_upd"),
 ]

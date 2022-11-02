@@ -15,10 +15,11 @@ class UrlBase(models.Model):
         ('api', 'api'),
     )
     user = models.ForeignKey(User,models.SET_NULL,blank=True,null=True, verbose_name='Пользователь')
-    longUrl = models.CharField(max_length=255, blank=True, null=True, verbose_name="Исходная ссылка")
+    longUrl = models.CharField(max_length=2083, blank=True, null=True, verbose_name="Исходная ссылка")
     shortUrl = models.CharField(max_length=255, blank=True, null=True, verbose_name="Короткая сслылка")
     count = models.IntegerField(default = 0, verbose_name='Количество открытий')
-
+    img_svg = models.FileField(upload_to='QR', null=True, blank=True, verbose_name='QR')
+    
     typeSource = models.CharField(
             max_length=10,
             choices=TYPE_SOURCE,

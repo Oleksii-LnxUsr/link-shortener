@@ -1,0 +1,23 @@
+<!-- Контент -->
+<section class="form_wrapper">
+    <div class="container">
+  <app-header></app-header>
+  <div class="row">
+  <div class="col-sm-12 col-md-12">
+      <form  action="">
+        <div class="label-wrapper">
+          <input id="shortUrl" #shortUrl  type="text" required  title=""  pattern="^[a-zA-Z\s]+$" placeholder=" " >
+          <label class="control-label" for="url">Исходная ссылка</label>							
+        </div>	
+        <input type="button" (click)="add(shortUrl.value)" class="button short" value="Сократить"> 
+      </form>
+  </div>
+  </div>
+    <div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div class="short-title">Удобный сокращатель</div>
+        <div class="description">Вы можете воспользоваться им,<span>чтобы из длинной ссылки сделать короткую</span></div>
+    </div>
+  </div>
+  </div>
+  </section>
