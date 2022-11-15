@@ -9,9 +9,14 @@ import random
 import segno
 
 
+from user_agents import parse
+
+
 RANDOM_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 ITEM_RANDOM_CHAR = 4
 
+
+    
 def getRandom(count_random):
     strRandom = ""
     for i in range(count_random):
@@ -46,6 +51,7 @@ class MainCreateView(CreateView):
         self.object = form.save(commit=False)
         self.object.shortUrl = "https://okqr.ru/"+getRandom(ITEM_RANDOM_CHAR)
         self.object.typeSource = 'www'
+
         self.object.save()
         
         return super().form_valid(form)

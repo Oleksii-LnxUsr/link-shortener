@@ -14,6 +14,14 @@ class UrlBase(models.Model):
         ('www', 'www'),
         ('api', 'api'),
     )
+    
+    TYPE_DEVICE = (
+        ('none', 'none'),
+        ('mobile', 'mobile'),
+        ('tablet', 'tablet'),
+        ('pc', 'pc'),
+    )
+    
     user = models.ForeignKey(User,models.SET_NULL,blank=True,null=True, verbose_name='Пользователь')
     longUrl = models.CharField(max_length=2083, blank=True, null=True, verbose_name="Исходная ссылка")
     shortUrl = models.CharField(max_length=255, blank=True, null=True, verbose_name="Короткая сслылка")
@@ -27,7 +35,16 @@ class UrlBase(models.Model):
             verbose_name='Источник',
             null=True, blank=True
         )
-        
+    
+    typeDevice = models.CharField(
+            max_length=10,
+            choices=TYPE_DEVICE,
+            default='none',
+            verbose_name='Тип устройства',
+            null=True, blank=True
+        )
+    userIP = models.CharField(max_length=50, blank=True, null=True, verbose_name="IP")
+
     updated_at = models.DateTimeField(verbose_name='updated date', auto_now=True)
     
     

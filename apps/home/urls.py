@@ -38,4 +38,5 @@ urlpatterns = [
     #path("blank/", BlankView.as_view(), name="blank"),
     path('api_v1/get_urls/', UrlBaseView.as_view(), name="get_urls"),
     path('api/grs', UrlBaseOneView.as_view(), name="api_grs_upd"),
+    path('api/add_temp_user', views.add_temp_user, name="add_temp_user"),
 ]

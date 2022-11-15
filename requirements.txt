@@ -59,3 +59,5 @@ wrapt==1.14.1
 zipp==3.8.1
 segno==1.5.2
 django-cors-headers==3.13.0
+user-agents==2.2.0
+djangorestframework-jwt==1.11.0

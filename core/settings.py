@@ -4,6 +4,8 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 import os, environ
+import datetime
+
 
 env = environ.Env(
     # set casting, default value
@@ -158,6 +160,7 @@ DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        #'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         #'rest_framework.authentication.SessionAuthentication',
     ]
@@ -174,7 +177,7 @@ CELERY_RESULT_BACKEND = "redis://localhost:6379"
 #]
 
 CORS_ORIGIN_WHITELIST = [
-    'https://okqr.ru'
+    'https://okqr.ru',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -183,3 +186,14 @@ CORS_ALLOW_ALL_ORIGINS = True
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+
+
+JWT_AUTH = {
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
+    #'JWT_VERIFY': True,
+    #'JWT_VERIFY_EXPIRATION': True,
+    #'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3000),
+    #'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+ 
+}

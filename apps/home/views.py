@@ -26,6 +26,12 @@ from django.conf import settings
 import os.path
 import segno
 
+from user_agents import parse
+from django.contrib.auth.models import User, Group 
+
+#from django.contrib.gis.geoip2 import GeoIP2
+
+
 RANDOM_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 ITEM_RANDOM_CHAR = 4
 
@@ -75,10 +81,18 @@ class UrlBaseView(APIView):
             l_result.append({'longUrl':obj.longUrl, 'shortUrl':obj.shortUrl})
         return JsonResponse({"result": list(l_result)}, safe=False)
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+    
 class UrlBaseOneView(APIView):
     #authentication_classes = [SessionAuthentication, BasicAuthentication]
     #permission_classes = [IsAuthenticated]
-    def get(self, request, short_url):
+    def get(self, request, short_url):        
         find_obj = UrlBase.objects.all().filter(shortUrl = 'https://okqr.ru/'+short_url).first()
         if find_obj!=None:
             path_file_save = os.path.join(settings.MEDIA_ROOT, 'QR',short_url+'.svg')
@@ -90,20 +104,104 @@ class UrlBaseOneView(APIView):
             find_obj.img_svg.name = path_file_obj
             find_obj.count = find_obj.count + 1
             find_obj.save()
-            l_result = {'id':find_obj.id, 'longUrl':find_obj.longUrl, 'shortUrl':find_obj.shortUrl, 'img_svg': find_obj.img_svg.url }
+            l_result = {'id':find_obj.id, 'longUrl':find_obj.longUrl, 'shortUrl':find_obj.shortUrl, 'img_svg': find_obj.img_svg.url, 'ip_user': find_obj.userIP}
             return JsonResponse(l_result, safe=False)
         else:
             raise Http404
     def post(self, request):
         postData = json.dumps(request.data)
         jsonData = json.loads(postData)
-        print('jsonData->',jsonData)        
+        #print('jsonData->',jsonData)        
         v = jsonData
         obj = UrlBase.objects.create()
         obj.longUrl = v['longUrl']
-        print('v->',v['longUrl'])
-        obj.shortUrl = "https://okqr.ru/"+getRandom(ITEM_RANDOM_CHAR)
-        obj.typeSource = 'api'
+        #print('v->',v['longUrl'])
+        shortCode = getRandom(ITEM_RANDOM_CHAR)
+        obj.shortUrl = "https://okqr.ru/"+ shortCode
+        obj.typeSource = 'www'
+        #
+        path_file_save = os.path.join(settings.MEDIA_ROOT, 'QR',shortCode+'.svg')
+        print('path_file_save-->', path_file_save)
+        path_file_obj = os.path.join('QR',shortCode+'.svg')
+        qrcode = segno.make(obj.shortUrl, error='Q')
+        qrcode.save(path_file_save, scale=4)
+        obj.img_svg.name = path_file_obj
+        
+        ip_user = get_client_ip(request)
+        obj.userIP = ip_user
+        
+        agent = request.META['HTTP_USER_AGENT']
+        user_agent = parse(agent)
+        # Определяем мобильное устройство
+        print(user_agent.device)
+        # Определяем производителя
+        print(user_agent.device.brand)
+        # Операционная система
+        print(user_agent.os)
+        # Семейство операционной системы
+        print(user_agent.os.family)
+        # Тип браузера
+        print(user_agent.browser)
+        # Версия
+        print(user_agent.browser.version)        
+        # Мобильный клиент
+        print('user_agent.is_mobile',user_agent.is_mobile)
+        # Планшет
+        print('user_agent.is_tablet',user_agent.is_tablet)
+        # Поддерживает касание
+        print('user_agent.is_touch_capable',user_agent.is_touch_capable)
+        # ПК        
+        print('user_agent.is_pc',user_agent.is_pc)
+        # Поисковый бот        
+        print('user_agent.is_bot',user_agent.is_bot)
+        
+        if user_agent.is_mobile:
+            obj.typeDevice = 'mobile'
+        elif user_agent.is_tablet:
+            obj.typeDevice = 'tablet'
+        elif user_agent.is_pc:
+            obj.typeDevice = 'pc'
+        else:
+            obj.typeDevice = 'none'
+            
+        #
         obj.save()
-        l_result = {'id':obj.id, 'longUrl':obj.longUrl, 'shortUrl':obj.shortUrl}
+        l_result = {'id':obj.id, 'longUrl':obj.longUrl, 'shortUrl':obj.shortUrl, 'img_svg':obj.img_svg.url}
         return JsonResponse(l_result, safe=False)
+
+
+
+def add_temp_user(request):
+    #g = GeoIP2()
+    #print('META->',request.META)
+    agent = request.META['HTTP_USER_AGENT']
+    user_agent = parse(agent)
+    # Определяем мобильное устройство
+    print(user_agent.device)
+    # Определяем производителя
+    print(user_agent.device.brand)
+    # Операционная система
+    print(user_agent.os)
+    # Семейство операционной системы
+    print(user_agent.os.family)
+    # Тип браузера
+    print(user_agent.browser)
+    # Версия
+    print(user_agent.browser.version)        
+    # Мобильный клиент
+    print('user_agent.is_mobile',user_agent.is_mobile)
+    # Планшет
+    print('user_agent.is_tablet',user_agent.is_tablet)
+    # Поддерживает касание
+    print('user_agent.is_touch_capable',user_agent.is_touch_capable)
+    # ПК        
+    print('user_agent.is_pc',user_agent.is_pc)
+    # Поисковый бот        
+    print('user_agent.is_bot',user_agent.is_bot)
+    ip_user = get_client_ip(request)
+    shortCode = getRandom(ITEM_RANDOM_CHAR)
+    u_obj = User.objects.create_user(shortCode.lower(),
+                                     email=shortCode.lower()+'@tempuser.com',
+                                         password=shortCode)
+    result = {'username':shortCode.lower(), 'password': shortCode}
+    return JsonResponse(result, safe=False)
