@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { ClipboardModule } from 'ngx-clipboard';
 import { RedirectComponent } from './redirect/redirect.component';
 import { HeaderComponent } from './header/header.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { HeaderComponent } from './header/header.component';
     QrComponent,
     MainComponent,
     RedirectComponent,
-    HeaderComponent
+    HeaderComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,

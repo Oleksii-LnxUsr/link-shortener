@@ -14,7 +14,6 @@ djangorestframework==3.13.1
 Markdown==3.4.1
 django-filter==22.1
 requests==2.28.1
-python-telegram-bot==20.0a4
 celery==5.2.7
 redis==4.3.4
 amqp==5.1.1
@@ -61,3 +60,5 @@ segno==1.5.2
 django-cors-headers==3.13.0
 user-agents==2.2.0
 djangorestframework-jwt==1.11.0
+uWSGI==2.0.21
+qrcode

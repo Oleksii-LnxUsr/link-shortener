@@ -23,9 +23,16 @@ export class RedirectComponent implements OnInit {
     //console.log(shortUrl)
     this.qrService.getQr(shortUrl)
       .subscribe(qr => {
-        this.qr = qr
-        console.log(this.qr);        
-        window.location.href = qr.longUrl;
+        if (qr!==undefined){
+          this.qr = qr
+          console.log(this.qr);        
+          window.location.href = qr.longUrl;
+        }
+        else{
+          console.log('not found');
+          window.location.href = 'https://okqr.ru/404';
+        }
+        
       });
   }
 

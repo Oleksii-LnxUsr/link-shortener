@@ -11,7 +11,8 @@ import { Qr } from './qr';
 export class QrService {
   
   //private qrUrl = 'api/qrs';  // URL to web api
-  private qrUrl = 'https://okqr.ru/api/grs';  // URL to web api
+  //private qrUrl = 'https://okqr.ru/api/grs';  // URL to web api
+  private qrUrl = 'http://okqr.ru:30903/api/grs';  // URL to web api
   
 
   constructor(private http: HttpClient) { }

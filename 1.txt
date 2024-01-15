@@ -10,4 +10,4 @@ sudo docker run -it --rm -p 80:80 --name certbot \
 		 
 source ./env/bin/activate
 
-docker cp e75fc2da69a4:db.sqlite3 .
+docker cp appseed_app:db.sqlite3 .

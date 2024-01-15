@@ -29,25 +29,15 @@ import segno
 from user_agents import parse
 from django.contrib.auth.models import User, Group 
 
+import qrcode
+import qrcode.image.svg
+
 #from django.contrib.gis.geoip2 import GeoIP2
 
 
 RANDOM_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 ITEM_RANDOM_CHAR = 4
 
-
-def redirect_url(request, short_url):
-    print('short_url->',short_url)
-    find_obj = UrlBase.objects.all().filter(shortUrl = 'https://okqr.ru/'+short_url).first()
-    if find_obj!=None:
-        find_obj.count = find_obj.count + 1
-        print('find_obj.count->',find_obj.count)
-        find_obj.save()
-        return HttpResponsePermanentRedirect(find_obj.longUrl)
-    else:
-        context = {'error_url': 'https://okqr.ru/'+short_url}
-        html_template = loader.get_template('home/page-404.html')
-        return HttpResponse(html_template.render(context, request))
 
 
 def getRandom(count_random):
@@ -62,6 +52,13 @@ def getRandom(count_random):
                 obj_search = UrlBase.objects.all().filter(shortUrl=RANDOM_STRING).first()
     return strRandom
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 class UrlBaseView(APIView):
     #authentication_classes = [SessionAuthentication, BasicAuthentication]
@@ -81,14 +78,6 @@ class UrlBaseView(APIView):
             l_result.append({'longUrl':obj.longUrl, 'shortUrl':obj.shortUrl})
         return JsonResponse({"result": list(l_result)}, safe=False)
 
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
-    
 class UrlBaseOneView(APIView):
     #authentication_classes = [SessionAuthentication, BasicAuthentication]
     #permission_classes = [IsAuthenticated]
@@ -99,11 +88,39 @@ class UrlBaseOneView(APIView):
             print('path_file_save-->', path_file_save)
             path_file_obj = os.path.join('QR',short_url+'.svg')
             
-            qrcode = segno.make(find_obj.shortUrl, error='Q')
-            qrcode.save(path_file_save, scale=4)
+            #qrcode = segno.make(find_obj.shortUrl, error='Q')
+            #qrcode.save(path_file_save, scale=4)
+            #qr = qrcode.QRCode(
+            #    version=1,
+            #    error_correction=qrcode.constants.ERROR_CORRECT_Q,
+            #    box_size=10,
+            #    border=4,
+            #)
+            #qr.add_data(find_obj.shortUrl)            
+            #qr.make(fit=True)            
+            #img = qr.make_image(fill_color="black", back_color="white")
+            factory = qrcode.image.svg.SvgPathImage
+            img = qrcode.make(find_obj.shortUrl, image_factory=factory)
+            img.save(path_file_save)
             find_obj.img_svg.name = path_file_obj
             find_obj.count = find_obj.count + 1
             find_obj.save()
+            
+            userIP = get_client_ip(request)
+            agent = request.META['HTTP_USER_AGENT']
+            user_agent = parse(agent)
+            
+            typeDevice = 'none'
+            
+            if user_agent.is_mobile:
+                typeDevice = 'mobile'
+            elif user_agent.is_tablet:
+                typeDevice = 'tablet'
+            elif user_agent.is_pc:
+                typeDevice = 'pc'
+                
+            UserInfo.objects.create(urlBase = find_obj, lastUrl = '', shortUrl = find_obj.shortUrl, typeDevice = typeDevice,  userIP = userIP)
+            
             l_result = {'id':find_obj.id, 'longUrl':find_obj.longUrl, 'shortUrl':find_obj.shortUrl, 'img_svg': find_obj.img_svg.url, 'ip_user': find_obj.userIP}
             return JsonResponse(l_result, safe=False)
         else:
@@ -124,7 +141,7 @@ class UrlBaseOneView(APIView):
         print('path_file_save-->', path_file_save)
         path_file_obj = os.path.join('QR',shortCode+'.svg')
         qrcode = segno.make(obj.shortUrl, error='Q')
-        qrcode.save(path_file_save, scale=4)
+        qrcode.save(path_file_save, scale=4, lineclass=None, omitsize=True)
         obj.img_svg.name = path_file_obj
         
         ip_user = get_client_ip(request)

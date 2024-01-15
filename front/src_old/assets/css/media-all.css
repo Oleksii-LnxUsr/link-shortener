@@ -1,0 +1,86 @@
+@charset "utf-8";
+
+@-ms-viewport {
+	width: device-width;
+}
+@viewport {
+	width: device-width;
+}
+
+/* мониторы */
+@media only screen and (max-width: 1680px) {
+	
+	}
+@media only screen and (max-width: 1440px) {
+	
+	}
+	
+@media only screen and (max-width: 1344px) {
+	
+	}
+	
+@media only screen and (max-width: 1280px) {
+
+	
+	}
+	
+@media only screen and (max-width:1200px) {
+
+}
+
+@media screen and (max-width: 1024px)  {
+.success-title,
+.short-title {
+    font-size: 24px;
+    line-height: 32px;
+}
+.description {
+    font-size: 16px;
+}
+	}
+	
+@media screen and (max-width: 960px)  {
+
+	}
+	
+@media screen and (max-width: 800px)  {
+
+	}
+/* планшеты */
+
+@media screen and (max-width: 768px) {
+
+	}
+	
+@media screen and (max-width: 720px) {
+
+	}
+/* мобильные */
+
+@media screen and (max-width: 640px) {
+
+	
+}
+
+@media screen and (max-width: 568px) {
+
+	}
+	
+@media screen and (max-width: 480px)  {
+
+}
+
+@media screen and (max-width: 375px)  { 
+
+}
+
+@media screen and (max-width: 360px) {
+
+	
+	}
+
+@media screen and (max-width: 320px) {
+
+	
+	}
+
