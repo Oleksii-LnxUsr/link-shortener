@@ -4,20 +4,21 @@
   <app-header></app-header>
   <div class="row">
   <div class="col-sm-12 col-md-12">
-      <form  action="">
+      <form (ngSubmit)="add(longUrl.value)">
         <div class="label-wrapper">
-          <input id="shortUrl" #shortUrl  type="text" required  title=""  pattern="^[a-zA-Z\s]+$" placeholder=" " >
-          <label class="control-label" for="url">Исходная ссылка</label>							
-        </div>	
-        <input type="button" (click)="add(shortUrl.value)" class="button short" value="Сократить"> 
+          <input id="shortUrl" #longUrl type="text" required title="Введите ссылку для сокращения" pattern="^[a-zA-Z\s]+$" placeholder="Введите ссылку для сокращения" aria-label="Введите ссылку для сокращения" autocomplete="off">
+          <label class="control-label" for="url">Исходная ссылка</label>
+        </div>
+        <p class="error">{{ error }}</p>
+        <input type="submit" class="button short" value="Сократить">
       </form>
   </div>
   </div>
-    <div class="row">
+  <div class="row">
     <div class="col-sm-12 col-md-12">
-        <div class="short-title">Удобный сокращатель</div>
-        <div class="description">Вы можете воспользоваться им,<span>чтобы из длинной ссылки сделать короткую</span></div>
+        <h1 class="short-title">Сокращатель ссылок (URL) – быстро и бесплатно</h1>
+        <p class="description">Сервис для сокращения длинных ссылок и генерации QR-кодов. Быстро, удобно и бесплатно – сокращайте URL и делитесь ими.</p>
     </div>
   </div>
   </div>
-  </section>
+</section>

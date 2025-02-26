@@ -1,11 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap'); */
 
 .form_wrapper {
 padding: 45px 0;
 }
+
 .logo {
-margin-bottom: 60px;
+  margin-bottom: 60px;
+  min-width: 245px;
+  min-height: 66px;
 }
+
 input[type=text] {
 	border: 2px solid #B5BBC2;
 	border-radius: 5px;
@@ -25,6 +29,7 @@ input[type=text] {
 input[type=text]:valid {
     border: 2px solid #76BC21;
 }
+
 input[type=text]:focus {
 border: 2px solid #707C8B;
 }
@@ -32,7 +37,7 @@ border: 2px solid #707C8B;
 
 .button  {
 border-radius: 5px;
-font-family: 'Roboto';
+font-family: 'Roboto', sans-serif;
 font-style: normal;
 font-weight: 500;
 font-size: 16px;
@@ -46,6 +51,7 @@ background: #76BC21;
 }
 .copy:hover {
 background: #64A738;
+color: white;
 }
 .copy:active {
 background: #4F8C26;
@@ -56,6 +62,7 @@ margin-left:15px;
 }
 .more:hover {
 background: #0F4FC5;
+color: white;
 }
 .more:active {
 background: #062967;
@@ -64,7 +71,7 @@ background: #062967;
 background: #003595;
 }
 .qr-title {
-font-family: 'Roboto';
+font-family: 'Roboto', sans-serif;
 font-style: normal;
 font-weight: 500;
 font-size: 16px;
@@ -73,7 +80,7 @@ color: #000000;
 margin-top:40px;
 }
 .success-title {
-font-family: 'Roboto';
+font-family: 'Roboto', sans-serif;
 font-style: normal;
 font-weight: 700;
 font-size: 30px;
@@ -82,7 +89,7 @@ color: #000000;
 margin-top:20px;
 }
 .short-title {
-font-family: 'Roboto';
+font-family: 'Roboto', sans-serif;
 font-style: normal;
 font-weight: 700;
 font-size: 30px;
@@ -91,7 +98,7 @@ color: #000000;
 margin-top:65px;
 }
 .description {
-font-family: 'Roboto';
+font-family: 'Roboto', sans-serif;
 font-style: normal;
 font-weight: 400;
 font-size: 20px;
@@ -113,12 +120,12 @@ label  {
     top: -10px;
 background: #FFFFFF;
 padding:5px 5px 0 5px;
-font-family: 'Roboto';
+font-family: 'Roboto', sans-serif;
 font-style: normal;
 font-weight: 400;
 font-size: 14px;
 line-height: 135%;
-color: #B5BBC2;
+color: #000;
 border-radius: 6px;
 padding:2px 8px;
 }
@@ -128,4 +135,8 @@ padding:2px 8px;
 
 #url:valid + .control-label {
     color: #76BC21;
+}
+
+.error {
+  color: red;
 }

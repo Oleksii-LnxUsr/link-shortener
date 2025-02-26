@@ -1,42 +1,56 @@
 <!-- Контент -->
 
 <section class="form_wrapper">
-    <div class="container">
-        <app-header></app-header>
-        <div *ngIf="qr" class="row">
-            <div class="col-sm-12 col-md-12">
-                <form action="">
-                    <input type="text" #shortUrl required title="" pattern="^[a-zA-Z\s]+$" [(ngModel)]="qr.shortUrl"
-                        name="shortUrl" (input)="editurl(qr.shortUrl)">
-                    
-                    <div *ngIf="its_edit; else elseBlockButton">
-                        <input type="button" class="button short" (click)="add(shortUrl.value)" value="Сократить"> 
-                    </div>                    
-                    <ng-template #elseBlockButton>
-                        <input type="button" class="button copy" ngxClipboard [cbContent]="qr.shortUrl" value="Скопировать">
-                        <input type="button" class="button more" value="Еще" routerLink="/main">
-                    </ng-template>
+  <div class="container">
+    <app-header></app-header>
+    <div *ngIf="qr" class="row">
+      <div class="col-sm-12 col-md-12">
+        <form action="">
+          <input
+            type="text"
+            #shortUrl
+            required
+            title=""
+            pattern="^[a-zA-Z\s]+$"
+            [(ngModel)]="qr.shortUrl"
+            name="shortUrl"
+            (input)="editurl(qr.shortUrl)"
+          />
 
-                </form>
-            </div>
-        </div>
-        <div *ngIf="its_edit; else elseBlock">
-            
-        </div>
-        <ng-template #elseBlock>
-            <div *ngIf="qr" class="row">
-                <div class="col-sm-12 col-md-12">
-                    <div class="qr-title">QR-код для этой ссылки</div>
-                    <img src="https://okqr.ru{{ qr.img_svg }}">
-                </div>            
-                <div class="row">
-                    <div class="col-sm-12 col-md-12">
-                        <div class="success-title">Ваша ссылка готова!</div>
-                    </div>
-                </div>
-            </div>
-        </ng-template>
-            
-        
+          <div *ngIf="its_edit; else elseBlockButton">
+            <input
+              type="button"
+              class="button short"
+              (click)="add(shortUrl.value)"
+              value="Сократить"
+            />
+          </div>
+          <ng-template #elseBlockButton>
+            <input
+              type="button"
+              class="btn button copy"
+              ngxClipboard
+              [cbContent]="qr.shortUrl"
+              value="Скопировать"
+            />
+            <a class="btn button more" routerLink="/">Сократить ещё</a>
+          </ng-template>
+        </form>
+      </div>
     </div>
+    <div *ngIf="its_edit; else elseBlock"></div>
+    <ng-template #elseBlock>
+      <div *ngIf="qr" class="row">
+        <div class="col-sm-12 col-md-12">
+          <div class="qr-title">QR-код для этой ссылки</div>
+          <img src="https://okqr.ru{{ qr.img_svg }}" />
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <h1 class="success-title">Ваша ссылка готова!</h1>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
 </section>

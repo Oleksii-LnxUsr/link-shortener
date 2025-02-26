@@ -9,13 +9,13 @@ class UrlBaseAdmin(admin.ModelAdmin):
             return u"%s..." % (obj.longUrl[:50],)
         else:
             return "..."
-        
+
     list_display = ('url','user', 'shortUrl', 'updated_at', 'created_at', 'typeSource', 'count','typeDevice','userIP')
     list_filter = ('typeSource',)
     search_fields = ('shortUrl','longUrl')
     list_max_show_all = 1000
     list_per_page = 50
-    
+
 admin.site.register(UrlBase, UrlBaseAdmin)
 
 class UserInfoAdmin(admin.ModelAdmin):
@@ -26,6 +26,7 @@ class UserInfoAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 admin.site.register(UserInfo, UserInfoAdmin)
+admin.site.register(Keywords)
 
 '''
 class ActionAdmin(admin.ModelAdmin):

@@ -26,7 +26,7 @@ SECRET_KEY = env('SECRET_KEY', default='django-insecure-1x7qd&*ywi4gaq12i)!h%uak
 DEBUG = env('DEBUG')
 
 # Assets Management
-ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets') 
+ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets')
 
 # load production server from .env
 ALLOWED_HOSTS        = ['okqr.ru','localhost','95.181.230.150', 'localhost:85', '127.0.0.1', 'localhost:4200', env('SERVER', default='127.0.0.1') ]
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'rest_framework',    
+    'rest_framework',
     'apps.home',
 ]
 
@@ -90,15 +90,15 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 if os.environ.get('DB_ENGINE') and os.environ.get('DB_ENGINE') == "mysql":
-    DATABASES = { 
+    DATABASES = {
       'default': {
-        'ENGINE'  : 'django.db.backends.mysql', 
+        'ENGINE'  : 'django.db.backends.mysql',
         'NAME'    : os.getenv('DB_NAME'     , 'appseed_db'),
         'USER'    : os.getenv('DB_USERNAME' , 'appseed_db_usr'),
         'PASSWORD': os.getenv('DB_PASS'     , 'pass'),
         'HOST'    : os.getenv('DB_HOST'     , 'localhost'),
         'PORT'    : os.getenv('DB_PORT'     , 3306),
-        }, 
+        },
     }
 else:
     DATABASES = {
@@ -178,6 +178,7 @@ CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
 CORS_ORIGIN_WHITELIST = [
     'https://okqr.ru',
+    'http://localhost:4200'
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -195,5 +196,5 @@ JWT_AUTH = {
     #'JWT_VERIFY_EXPIRATION': True,
     #'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3000),
     #'JWT_AUTH_HEADER_PREFIX': 'Bearer',
- 
+
 }

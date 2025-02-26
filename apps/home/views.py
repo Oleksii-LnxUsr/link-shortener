@@ -17,6 +17,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import status
 
 import datetime
 import random
@@ -27,10 +28,11 @@ import os.path
 import segno
 
 from user_agents import parse
-from django.contrib.auth.models import User, Group 
+from django.contrib.auth.models import User, Group
 
 import qrcode
 import qrcode.image.svg
+from .serializers import KeywordsSerializer
 
 #from django.contrib.gis.geoip2 import GeoIP2
 
@@ -66,7 +68,7 @@ class UrlBaseView(APIView):
     def post(self, request):
         postData = json.dumps(request.data)
         jsonData = json.loads(postData)
-        print('jsonData->',jsonData)        
+        print('jsonData->',jsonData)
         l_result = []
         for v in jsonData:
             obj = UrlBase.objects.create()
@@ -81,13 +83,13 @@ class UrlBaseView(APIView):
 class UrlBaseOneView(APIView):
     #authentication_classes = [SessionAuthentication, BasicAuthentication]
     #permission_classes = [IsAuthenticated]
-    def get(self, request, short_url):        
+    def get(self, request, short_url):
         find_obj = UrlBase.objects.all().filter(shortUrl = 'https://okqr.ru/'+short_url).first()
         if find_obj!=None:
             path_file_save = os.path.join(settings.MEDIA_ROOT, 'QR',short_url+'.svg')
             print('path_file_save-->', path_file_save)
             path_file_obj = os.path.join('QR',short_url+'.svg')
-            
+
             #qrcode = segno.make(find_obj.shortUrl, error='Q')
             #qrcode.save(path_file_save, scale=4)
             #qr = qrcode.QRCode(
@@ -96,8 +98,8 @@ class UrlBaseOneView(APIView):
             #    box_size=10,
             #    border=4,
             #)
-            #qr.add_data(find_obj.shortUrl)            
-            #qr.make(fit=True)            
+            #qr.add_data(find_obj.shortUrl)
+            #qr.make(fit=True)
             #img = qr.make_image(fill_color="black", back_color="white")
             factory = qrcode.image.svg.SvgPathImage
             img = qrcode.make(find_obj.shortUrl, image_factory=factory)
@@ -105,22 +107,22 @@ class UrlBaseOneView(APIView):
             find_obj.img_svg.name = path_file_obj
             find_obj.count = find_obj.count + 1
             find_obj.save()
-            
+
             userIP = get_client_ip(request)
             agent = request.META['HTTP_USER_AGENT']
             user_agent = parse(agent)
-            
+
             typeDevice = 'none'
-            
+
             if user_agent.is_mobile:
                 typeDevice = 'mobile'
             elif user_agent.is_tablet:
                 typeDevice = 'tablet'
             elif user_agent.is_pc:
                 typeDevice = 'pc'
-                
+
             UserInfo.objects.create(urlBase = find_obj, lastUrl = '', shortUrl = find_obj.shortUrl, typeDevice = typeDevice,  userIP = userIP)
-            
+
             l_result = {'id':find_obj.id, 'longUrl':find_obj.longUrl, 'shortUrl':find_obj.shortUrl, 'img_svg': find_obj.img_svg.url, 'ip_user': find_obj.userIP}
             return JsonResponse(l_result, safe=False)
         else:
@@ -128,7 +130,7 @@ class UrlBaseOneView(APIView):
     def post(self, request):
         postData = json.dumps(request.data)
         jsonData = json.loads(postData)
-        #print('jsonData->',jsonData)        
+        #print('jsonData->',jsonData)
         v = jsonData
         obj = UrlBase.objects.create()
         obj.longUrl = v['longUrl']
@@ -143,10 +145,10 @@ class UrlBaseOneView(APIView):
         qrcode = segno.make(obj.shortUrl, error='Q')
         qrcode.save(path_file_save, scale=4, lineclass=None, omitsize=True)
         obj.img_svg.name = path_file_obj
-        
+
         ip_user = get_client_ip(request)
         obj.userIP = ip_user
-        
+
         agent = request.META['HTTP_USER_AGENT']
         user_agent = parse(agent)
         # Определяем мобильное устройство
@@ -160,18 +162,18 @@ class UrlBaseOneView(APIView):
         # Тип браузера
         print(user_agent.browser)
         # Версия
-        print(user_agent.browser.version)        
+        print(user_agent.browser.version)
         # Мобильный клиент
         print('user_agent.is_mobile',user_agent.is_mobile)
         # Планшет
         print('user_agent.is_tablet',user_agent.is_tablet)
         # Поддерживает касание
         print('user_agent.is_touch_capable',user_agent.is_touch_capable)
-        # ПК        
+        # ПК
         print('user_agent.is_pc',user_agent.is_pc)
-        # Поисковый бот        
+        # Поисковый бот
         print('user_agent.is_bot',user_agent.is_bot)
-        
+
         if user_agent.is_mobile:
             obj.typeDevice = 'mobile'
         elif user_agent.is_tablet:
@@ -180,7 +182,7 @@ class UrlBaseOneView(APIView):
             obj.typeDevice = 'pc'
         else:
             obj.typeDevice = 'none'
-            
+
         #
         obj.save()
         l_result = {'id':obj.id, 'longUrl':obj.longUrl, 'shortUrl':obj.shortUrl, 'img_svg':obj.img_svg.url}
@@ -204,16 +206,16 @@ def add_temp_user(request):
     # Тип браузера
     print(user_agent.browser)
     # Версия
-    print(user_agent.browser.version)        
+    print(user_agent.browser.version)
     # Мобильный клиент
     print('user_agent.is_mobile',user_agent.is_mobile)
     # Планшет
     print('user_agent.is_tablet',user_agent.is_tablet)
     # Поддерживает касание
     print('user_agent.is_touch_capable',user_agent.is_touch_capable)
-    # ПК        
+    # ПК
     print('user_agent.is_pc',user_agent.is_pc)
-    # Поисковый бот        
+    # Поисковый бот
     print('user_agent.is_bot',user_agent.is_bot)
     ip_user = get_client_ip(request)
     shortCode = getRandom(ITEM_RANDOM_CHAR)
@@ -222,3 +224,10 @@ def add_temp_user(request):
                                          password=shortCode)
     result = {'username':shortCode.lower(), 'password': shortCode}
     return JsonResponse(result, safe=False)
+
+class KeywordsListAPI(APIView):
+    def get(self, request):
+        keywords = Keywords.objects.first()
+        if keywords and keywords.keywords:
+            return Response(keywords.keywords, status=status.HTTP_200_OK)
+        return Response([], status=status.HTTP_204_NO_CONTENT)

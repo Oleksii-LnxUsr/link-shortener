@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,21 +11,24 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 //import { InMemoryDataService } from './in-memory-data.service';
 import { FormsModule } from '@angular/forms';
 import { ClipboardModule } from 'ngx-clipboard';
-import { RedirectComponent } from './redirect/redirect.component';
 import { HeaderComponent } from './header/header.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { QrService } from './qr.service';
+
+export function initConfig(qrService: QrService) {
+  return () => qrService.loadKeywords();
+}
 
 @NgModule({
   declarations: [
     AppComponent,
     QrComponent,
     MainComponent,
-    RedirectComponent,
     HeaderComponent,
     NotfoundComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
@@ -34,7 +37,10 @@ import { NotfoundComponent } from './notfound/notfound.component';
     //),
     ClipboardModule,
   ],
-  providers: [],
+  providers: [
+    QrService,
+    { provide: APP_INITIALIZER, useFactory: initConfig, deps: [QrService], multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

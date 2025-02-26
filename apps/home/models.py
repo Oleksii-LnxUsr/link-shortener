@@ -4,7 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from django.db import models
-from django.contrib.auth.models import User, Group 
+from django.contrib.auth.models import User, Group
 
 # Create your models here.
 
@@ -14,20 +14,20 @@ class UrlBase(models.Model):
         ('www', 'www'),
         ('api', 'api'),
     )
-    
+
     TYPE_DEVICE = (
         ('none', 'none'),
         ('mobile', 'mobile'),
         ('tablet', 'tablet'),
         ('pc', 'pc'),
     )
-    
+
     user = models.ForeignKey(User,models.SET_NULL,blank=True,null=True, verbose_name='Пользователь')
     longUrl = models.CharField(max_length=2083, blank=True, null=True, verbose_name="Исходная ссылка")
     shortUrl = models.CharField(max_length=255, blank=True, null=True, verbose_name="Короткая сслылка")
     count = models.IntegerField(default = 0, verbose_name='Количество открытий')
     img_svg = models.FileField(upload_to='QR', null=True, blank=True, verbose_name='QR')
-    
+
     typeSource = models.CharField(
             max_length=10,
             choices=TYPE_SOURCE,
@@ -35,7 +35,7 @@ class UrlBase(models.Model):
             verbose_name='Источник',
             null=True, blank=True
         )
-    
+
     typeDevice = models.CharField(
             max_length=10,
             choices=TYPE_DEVICE,
@@ -47,15 +47,15 @@ class UrlBase(models.Model):
 
     updated_at = models.DateTimeField(verbose_name='updated date', auto_now=True)
     created_at = models.DateTimeField(verbose_name='created date', auto_now_add=True, null=True)
-    
+
     def __str__(self):
-        return self.longUrl.__str__() 
-        
+        return self.longUrl.__str__()
+
     class Meta:
         verbose_name = 'Ссылки'
         verbose_name_plural = 'Ссылки'
-        
-        
+
+
 class UserInfo(models.Model):
     TYPE_DEVICE = (
         ('none', 'none'),
@@ -76,16 +76,16 @@ class UserInfo(models.Model):
         )
     userIP = models.CharField(max_length=50, blank=True, null=True, verbose_name="IP")
     updated_at = models.DateTimeField(verbose_name='updated date', auto_now=True)
-    
-    
+
+
     def __str__(self):
-        return self.shortUrl.__str__() + '__' + self.userIP.__str__() 
-        
+        return self.shortUrl.__str__() + '__' + self.userIP.__str__()
+
     class Meta:
         verbose_name = 'Сессии'
         verbose_name_plural = 'Сессии'
-        
-        
+
+
 
 class Action(models.Model):
     shortDescription = models.CharField(max_length=255, blank=True, null=True, verbose_name="Короткое описание")
@@ -97,10 +97,10 @@ class Action(models.Model):
     limitCountOn = models.IntegerField(default = 0, verbose_name='Максимальное число активаций')
     emailZone = models.CharField(max_length=255, blank=True, null=True, verbose_name="Email зона")
     updated_at = models.DateTimeField(verbose_name='updated date', auto_now=True)
-    
+
     def __str__(self):
-        return self.shortDescription.__str__() 
-        
+        return self.shortDescription.__str__()
+
     class Meta:
         verbose_name = 'Акции'
         verbose_name_plural = 'Акции'
@@ -116,10 +116,10 @@ class Promo(models.Model):
     email = models.CharField(max_length=255, blank=True, null=True, verbose_name="email")
 
     updated_at = models.DateTimeField(verbose_name='updated date', auto_now=True)
-    
+
     def __str__(self):
-        return self.stringPromo.__str__() 
-        
+        return self.stringPromo.__str__()
+
     class Meta:
         verbose_name = 'ПромоКоды'
         verbose_name_plural = 'ПромоКоды'
@@ -127,14 +127,24 @@ class Promo(models.Model):
 class PromoOnList(models.Model):
     promo = models.ForeignKey(Promo,models.SET_NULL,blank=True,null=True, verbose_name='ПромоКод')
     stringPromo = models.CharField(max_length=255, blank=True, null=True, verbose_name="Строчка промо")
-    phone = models.CharField(max_length=255, blank=True, null=True, verbose_name="телефон")    
+    phone = models.CharField(max_length=255, blank=True, null=True, verbose_name="телефон")
     dateOn = models.DateTimeField(verbose_name='Дата активации', auto_now=True)
-    
+
     updated_at = models.DateTimeField(verbose_name='updated date', auto_now=True)
-    
+
     def __str__(self):
         return self.stringPromo.__str__()  + '_' + self.phone.__str__()
-        
+
     class Meta:
         verbose_name = 'ПромоКодыАктивация'
         verbose_name_plural = 'ПромоКодыАктивация'
+
+class Keywords(models.Model):
+    keywords = models.JSONField(null=True, blank=True, verbose_name="Ключевые слова")
+
+    def __str__(self):
+        return 'Ключевые слова'
+
+    class Meta:
+        verbose_name = 'Ключевые слова CEO'
+        verbose_name_plural = 'Ключевые слова CEO'
